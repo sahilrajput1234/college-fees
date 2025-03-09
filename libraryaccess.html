@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Access</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container-grid { display: grid; gap: 1rem; padding: 2rem; }
+        .card { transition: transform 0.2s; }
+        .card:hover { transform: scale(1.02); }
+        .table-responsive { margin-top: 1rem; }
+        <style>
+            .progress-bar-container {
+                width: 100%;
+                height: 20px;
+                background-color: #e0e0e0;
+                border-radius: 10px;
+                overflow: hidden;
+                margin-top: 20px;
+            }
+            .progress-bar {
+                height: 100%;
+                background-color: #007bff;
+                width: 0%;
+                border-radius: 10px;
+                transition: width 0.5s ease;
+            }
+        </style>
+    </style>
+</head>
+<body>
+    <div class="clock-container" style="position: fixed; top: 20px; right: 20px; background: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1000;">
+        <span id="liveClock" style="font-size: 1.2em; font-weight: bold; color: #007bff;"></span>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Nanne College</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="profile.html">👤 Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="feespayment.html">💰 Fees</a></li>
+                    <li class="nav-item"><a class="nav-link" href="coursematerials.html">📚 Course Materials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="examresults.html">📜 Exam Results</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignmentssubmission.html">📝 Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="libraryaccess.html">📚 Library Access</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-grid">
+        <div class="card">
+            <div class="card-body">
+                <h3>🔍 Search Books</h3>
+                <form>
+                    <div class="mb-3">
+                        <label for="searchInput" class="form-label">Search</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Enter book title or author">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterCategory" class="form-label">Category</label>
+                        <select class="form-select" id="filterCategory">
+                            <option value="all">All Categories</option>
+                            <option value="computer-science">Computer Science</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="physics">Physics</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sortOption" class="form-label">Sort By</label>
+                        <select class="form-select" id="sortOption">
+                            <option value="title-asc">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                            <option value="author-asc">Author (A-Z)</option>
+                            <option value="author-desc">Author (Z-A)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="showAvailableOnly">
+                        <label class="form-check-label" for="showAvailableOnly">Show Available Only</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3>📚 Available Resources</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Availability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Introduction to Algorithms</td>
+                                <td>Cormen, Leiserson, Rivest, Stein</td>
+                                <td class="text-success">Available</td>
+                            </tr>
+                            <tr>
+                                <td>Clean Code</td>
+                                <td>Robert C. Martin</td>
+                                <td class="text-danger">Checked Out</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3>📖 Library Account</h3>
+                <div class="mb-3">
+                    <label class="form-label">Checked Out Books</label>
+                    <ul class="list-group">
+                        <li class="list-group-item">Design Patterns - Due 2023-12-15</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary">Renew Books</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() {
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.style.backgroundColor = '#28a745';
+            } else {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+            }
+        }, 300);
+    }
+    window.addEventListener('load', simulateProgress);
+</script>
+</body>
+</html>
+<div class="progress-bar-container">
+    <div class="progress-bar" id="loadingProgress"></div>
+</div>
+<script>
+    function simulateProgress() 
+        let progress = 0;
+        const progressBar = document.getElementById('loadingProgress');

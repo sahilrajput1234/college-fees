@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fees Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .payment-container { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .payment-header { text-align: center; margin-bottom: 30px; }
+        .payment-section { margin-bottom: 20px; }
+        .payment-section h3 { color: #007bff; margin-bottom: 15px; }
+        .payment-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .payment-info-item { padding: 10px; border: 1px solid #dee2e6; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>💰 Fees Payment</h1>
+        </div>
+
+        <div class="payment-section">
+            <h3>Pending Fees</h3>
+            <div class="payment-info">
+                <div class="payment-info-item"><strong>Semester Fee:</strong> ₹15,000</div>
+                <div class="payment-info-item"><strong>Library Fee:</strong> ₹1,500</div>
+                <div class="payment-info-item"><strong>Hostel Fee:</strong> ₹25,000</div>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h3>Payment History</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023-10-15</td>
+                            <td>Semester Fee Payment</td>
+                            <td>₹15,000</td>
+                            <td class="text-success">Completed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+                <div class="payment-info-item"><strong>Total Amount:</strong> ₹41,500</div>
+                <div class="payment-info-item"><button class="btn btn-success" onclick="processPayment()">Pay Now</button></div>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h3>Payment Options</h3>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="button">Pay via UPI</button>
+                <button class="btn btn-success" type="button">Pay via Net Banking</button>
+                <button class="btn btn-warning" type="button">Pay via Credit Card</button>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h3>Payment History</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Mode</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023-09-15</td>
+                        <td>₹15,000</td>
+                        <td>UPI</td>
+                        <td>Success</td>
+                    </tr>
+                    <tr>
+                        <td>2023-07-10</td>
+                        <td>₹25,000</td>
+                        <td>Net Banking</td>
+                        <td>Success</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    function processPayment() {
+        const paymentOptions = {
+            amount: 41500,
+            currency: 'INR',
+            description: 'College Fees Payment'
+        };
+        
+        if (confirm('Are you sure you want to proceed with the payment of ₹41,500?')) {
+            // Simulate payment processing
+            setTimeout(() => {
+                alert('Payment successful!');
+                window.location.href = 'student_portal.html';
+            }, 2000);
+        }
+    }
+    </script>
+</body>
+</html>

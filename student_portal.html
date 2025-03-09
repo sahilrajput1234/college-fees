@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar { margin-bottom: 15px; }
+        .logo-container { position: absolute; left: 20px; top: 10px; }
+        .logo-container img { max-width: 100px; }
+        .banner {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            padding: 20px; 
+        }
+        .card { 
+            text-align: center; 
+            padding: 22px;
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-in-out forwards;
+        }
+        .card:nth-child(n) { animation-delay: calc(0.1s * var(--i)); }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="banner">
+        🎓 Welcome to Student Portal - Your Academic Hub 📚
+    </div>
+    
+    <div class="logo-container">
+        <img src="college-logo.png" alt="College Logo">
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Student Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    
+                    
+                    <li class="nav-item"><a class="nav-link" href="http://localhost:8000/profile.html">👤 Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">💰 Fees</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">🔔 Notifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html" onclick="return confirm('Are you sure you want to logout?')">🚪 Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-grid">
+        <script>
+            const cardTitles = [
+                "👤 Student Profile", "💰 Fees Payment", "📚 Course Materials", "📜 Exam Results", "📅 Attendance Record",
+                "📝 Assignments Submission", "📖 Library Access", "📞 Student Support", "🎓 Faculty Directory", "🏆 Student Achievements",
+                "⚽ Sports & Recreation", "🚌 Transport Services", "📢 Campus Announcements", "🛠 Account Settings", "🕒 Class Timetable",
+                "🔔 Alerts & Notifications", "📍 Campus Map", "💼 Internship Opportunities", "🏠 Hostel Information", "🎭 College Events",
+                "🎨 Art & Culture", "🔬 Research & Innovation", "📢 Student Council", "🤝 Peer Mentorship", "🎵 Music Club",
+                "💪 Health & Fitness", "🌍 International Programs", "💡 Workshops & Seminars", "🏅 Scholarships", "📖 Study Groups",
+                "🎤 Debate Club", "🚀 Start-Up Incubation", "🧪 Science Club", "✍ Writing Club", "📺 Media & Journalism",
+                "📊 Data Science & AI", "🏛 History & Heritage", "🌿 Environmental Club", "⚖ Law & Society", "🤖 Robotics Club"
+            ];
+            
+            let container = document.querySelector('.container-grid');
+            cardTitles.forEach((title, index) => {
+                let card = document.createElement('div');
+                card.className = 'card';
+                card.style.setProperty('--i', index + 1);
+                card.innerHTML = `<h5>${title}</h5><button class="btn btn-primary" onclick="window.location.href='${title.toLowerCase().replace(/[^a-z]/g, '')}.html'">View</button>`;
+                container.appendChild(card);
+            });
+        </script>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
